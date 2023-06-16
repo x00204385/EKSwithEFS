@@ -77,3 +77,6 @@ Also you can verify that data is written onto EFS filesystem:
 ```sh
 kubectl exec -ti efs-app -- tail -f /data/out
 ```
+
+# Deploying Wordpress
+Based on [https://aws.amazon.com/blogs/storage/running-wordpress-on-amazon-eks-with-amazon-efs-intelligent-tiering/]("tutorial")
