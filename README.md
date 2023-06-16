@@ -17,11 +17,6 @@ kubectl apply -f k8s/efs-service-account.yaml
 # Test the configuration of the cluster
 #
 ```
-vpc_id=$(aws eks describe-cluster \
-    --name demo \
-    --query "cluster.resourcesVpcConfig.vpcId" \
-    --output text)
-
 file_system_id=$(aws efs create-file-system \
     --region us-east-1 \
     --performance-mode generalPurpose \
