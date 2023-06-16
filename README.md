@@ -13,9 +13,11 @@ helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --set controller.serviceAccount.name=efs-csi-controller-sa
 kubectl apply -f k8s/efs-service-account.yaml
 ```
-#
+
 # Test the configuration of the cluster
-#
+
+## Static Provisioning
+
 ```
 file_system_id=$(aws efs create-file-system \
     --region us-east-1 \
@@ -27,6 +29,14 @@ cd tests/multiple_pods
 ```
 Edit pv.yaml and add the file system id.
 
+Deploy the example
+
+```
+kubectl apply -f specs/pv.yaml
+kubectl apply -f specs/claim.yaml
+kubectl apply -f specs/storageclass.yaml
+```
+
 Deploy the app1 and app2 pods. 
 ```
 kubectl apply -f specs/pod1.yaml
@@ -37,4 +47,22 @@ kubectl get pods --watch
 Verify that data is being written to the volume.
 ```
 kubectl exec -ti app1 -- tail /data/out1.txt
+```
+
+## Dynamic Provisioning
+Change storageclass.yaml to have the correct file system id.
+
+```sh
+kubectl apply -f examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
+kubectl apply -f examples/kubernetes/dynamic_provisioning/specs/pod.yaml
+```
+
+``sh
+kubectl get pods
+```
+
+Also you can verify that data is written onto EFS filesystem:
+
+```sh
+kubectl exec -ti efs-app -- tail -f /data/out
 ```
