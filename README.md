@@ -64,8 +64,8 @@ kubectl exec -ti app1 -- tail /data/out1.txt
 Change storageclass.yaml to have the correct file system id.
 
 ```sh
-kubectl apply -f examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
-kubectl apply -f examples/kubernetes/dynamic_provisioning/specs/pod.yaml
+kubectl apply -f dynamic_provisioning/specs/storageclass.yaml
+kubectl apply -f dynamic_provisioning/specs/pod.yaml
 ```
 
 ```sh
