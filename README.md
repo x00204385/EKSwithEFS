@@ -17,6 +17,11 @@ helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --namespace kube-system \
     --set controller.serviceAccount.create=false \
     --set controller.serviceAccount.name=efs-csi-controller-sa
+```
+
+### Create the K8S service account
+
+```sh
 kubectl apply -f k8s/efs-service-account.yaml
 ```
 
