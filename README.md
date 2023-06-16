@@ -79,4 +79,12 @@ kubectl exec -ti efs-app -- tail -f /data/out
 ```
 
 # Deploying Wordpress
-Based on [https://aws.amazon.com/blogs/storage/running-wordpress-on-amazon-eks-with-amazon-efs-intelligent-tiering/]("tutorial")
+Based on [tutorial](https://aws.amazon.com/blogs/storage/running-wordpress-on-amazon-eks-with-amazon-efs-intelligent-tiering/)
+
+-    Create access point in EFS volume
+-    Add reference wordpress-deployment.yaml
+-    Deploy the pods (MySQL and Wordpress)
+
+```sh
+kubectl apply -k wp
+```
