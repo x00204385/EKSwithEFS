@@ -8,6 +8,10 @@ aws eks update-kubeconfig --region us-east-1 --name demo
 ## Check that nodes are configured
 ```sh
 kubectl get nodes -o wide
+```
+
+## Install the EFS CSI driver with helm
+```sh
 helm repo update aws-efs-csi-driver
 helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --namespace kube-system \
