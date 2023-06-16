@@ -1,11 +1,13 @@
 # Provisioning cluster
 
 This procedure will provision the cluster with EFS and EBS support. 
-```
-terraform apply
+```sh
+terraform apply --auto-approve
 aws eks update-kubeconfig --region us-east-1 --name demo
-# Check that nodes are configured
-kubectl get nodes
+```
+## Check that nodes are configured
+```sh
+kubectl get nodes -o wide
 helm repo update aws-efs-csi-driver
 helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --namespace kube-system \
@@ -17,6 +19,7 @@ kubectl apply -f k8s/efs-service-account.yaml
 # Test the configuration of the cluster
 
 ## Static Provisioning
+See the tests directory and the multiple-pods example.
 
 ```
 file_system_id=$(aws efs create-file-system \
@@ -25,7 +28,6 @@ file_system_id=$(aws efs create-file-system \
     --query 'FileSystemId' \
     --output text)
 echo $file_system_id
-cd tests/multiple_pods
 ```
 Edit pv.yaml and add the file system id.
 
