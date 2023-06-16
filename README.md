@@ -21,14 +21,14 @@ kubectl apply -f k8s/efs-service-account.yaml
 ## Static Provisioning
 See the tests directory and the multiple-pods example.
 
+```ssh
+terraform output
 ```
-file_system_id=$(aws efs create-file-system \
-    --region us-east-1 \
-    --performance-mode generalPurpose \
-    --query 'FileSystemId' \
-    --output text)
-echo $file_system_id
+Should provde the FSID
 ```
+efs_id = "fs-0005e8f3b30f5086f"
+```
+
 Edit pv.yaml and add the file system id.
 
 Deploy the example
