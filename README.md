@@ -17,7 +17,7 @@ kubectl apply -f k8s/efs-service-account.yaml
 # Test the configuration of the cluster
 #
 ```
-vpc_id=$(aws eks describe-cluster \                                                                                                                     [10:34:06]
+vpc_id=$(aws eks describe-cluster \
     --name demo \
     --query "cluster.resourcesVpcConfig.vpcId" \
     --output text)
