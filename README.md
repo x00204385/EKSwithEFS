@@ -7,7 +7,7 @@ aws eks update-kubeconfig --region us-east-1 --name demo
 # Check that nodes are configured
 kubectl get nodes
 helm repo update aws-efs-csi-driver
-helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \                                                                                                                    [10:32:58]
+helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --namespace kube-system \
     --set controller.serviceAccount.create=false \
     --set controller.serviceAccount.name=efs-csi-controller-sa
