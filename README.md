@@ -57,7 +57,7 @@ kubectl apply -f examples/kubernetes/dynamic_provisioning/specs/storageclass.yam
 kubectl apply -f examples/kubernetes/dynamic_provisioning/specs/pod.yaml
 ```
 
-``sh
+```sh
 kubectl get pods
 ```
 
