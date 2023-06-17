@@ -2,9 +2,9 @@
 #   default = "ami-0cc4e06e6e710cd94" Ubuntu 20.04 focal
 
 
-# variable "region" {
-#   default = "eu-west-1"
-# }
+variable "region" {
+  default = "us-east-1"
+}
 
 # variable "primary" {
 #   type        = bool

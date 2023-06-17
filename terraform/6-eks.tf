@@ -1,3 +1,7 @@
+locals {
+  cluster_name = "demo"
+}
+
 resource "aws_iam_role" "demo" {
   name = "eks-cluster-demo"
 
@@ -37,3 +41,22 @@ resource "aws_eks_cluster" "demo" {
 
   depends_on = [aws_iam_role_policy_attachment.demo_amazon_eks_cluster_policy]
 }
+
+resource "null_resource" "update_kubeconfig" {
+  triggers = {
+    always = timestamp()
+  }
+
+  depends_on = [aws_eks_cluster.demo]
+
+provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command = <<EOT
+      set -e
+      echo 'Applying Auth ConfigMap with kubectl...'
+      aws eks wait cluster-active --name '${local.cluster_name}'
+      aws eks update-kubeconfig --name '${local.cluster_name}' --region=${var.region}
+    EOT
+  }
+}
+

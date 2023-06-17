@@ -1,3 +1,6 @@
+resource "local_file" "wordpress-deployment" {
+  filename = "${path.module}/../wp/wordpress-deployment.yaml"
+  content = <<EOF
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,7 +35,7 @@ spec:
   storageClassName: efs-sc
   csi:
     driver: efs.csi.aws.com
-    volumeHandle: fs-06abe3b703f476500::fsap-0be0ee22aa9e3725d
+    volumeHandle: ${aws_efs_file_system.eks-efs.id}::${aws_efs_access_point.eks-efs-ap.id}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -55,7 +58,7 @@ metadata:
   labels:
     app: wordpress
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       app: wordpress
@@ -72,12 +75,13 @@ spec:
       - image: wordpress:php7.1-apache
         name: wordpress
         env:
+        env:
         - name: WORDPRESS_DB_HOST
-          value: "wp-rdsdb.crhdyddxblg3.us-east-1.rds.amazonaws.com:3306"
+          value: "${aws_db_instance.wordpress-rds.endpoint}"
         - name: WORDPRESS_DB_PASSWORD
-          value: "Computing1"
+          value: "${var.db_password}"
         - name: WORDPRESS_DB_USER
-          value: "wp_user"
+          value: "${var.db_username}"
         - name: WORDPRESS_DB_NAME
           value: "wp"
         ports:
@@ -90,3 +94,5 @@ spec:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
           claimName: wordpress-efs-pvc
+EOF
+}
